@@ -1,5 +1,11 @@
 # Perfect Fit
 
+**🔗 Live demo:** [https://perfect-fit-oxh6.onrender.com](https://perfect-fit-oxh6.onrender.com)
+> Hosted on Render's free tier — if it's been idle, the first load can take 30–60 seconds to wake up.
+
+Fit photos **and now videos** into the exact frame each platform expects —
+...
+
 Fit photos **and now videos** into the exact frame each platform expects —
 without ever cropping out the parts that matter. The source media is scaled
 down to fit inside the target canvas, then padded (letterboxed/pillarboxed)
