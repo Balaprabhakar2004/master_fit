@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfect Fit &mdash; frame your photos &amp; videos for every platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <div class="grain"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M3 7 L3 3 L7 3 M17 3 L21 3 L21 7 M21 17 L21 21 L17 21 M7 21 L3 21 L3 17" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>
+      </span>
+      <span class="brand-name">Perfect&nbsp;Fit</span>
+    </div>
+    <p class="brand-tag">frame it right, every platform</p>
+  </header>
+
+  <main class="stage">
+
+    <section class="hero">
+      <h1>Nothing gets cropped.<br><span class="hero-accent">Everything gets framed.</span></h1>
+      <p class="hero-sub">Drop in a photo or a video, pick where it's going, and Perfect&nbsp;Fit scales it to
+        fit the exact frame &mdash; padding the edges instead of slicing off heads, captions or logos.</p>
+
+      <div class="mode-dial" role="tablist" aria-label="Media type">
+        <button type="button" class="mode-btn is-active" data-mode="image" role="tab" aria-selected="true">
+          <svg viewBox="0 0 24 24" width="16" height="16"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="8.5" cy="10" r="1.6" fill="currentColor"/><path d="M4 17 L9 12 L13 15 L16 12 L20 16" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Photo
+        </button>
+        <button type="button" class="mode-btn" data-mode="video" role="tab" aria-selected="false">
+          <svg viewBox="0 0 24 24" width="16" height="16"><rect x="3" y="6" width="13" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16 10 L21 7 L21 17 L16 14 Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          Video
+        </button>
+        <span class="mode-dial-glow" aria-hidden="true"></span>
+      </div>
+    </section>
+
+    <form id="fit-form" class="workbench" novalidate>
+
+      <!-- STEP 1 : dropzone / viewfinder -->
+      <div class="panel panel-frame">
+        <div class="panel-label"><span class="step-index">01</span> Drop your file in the frame</div>
+
+        <div class="viewfinder" id="viewfinder">
+          <span class="vf-bracket vf-tl"></span>
+          <span class="vf-bracket vf-tr"></span>
+          <span class="vf-bracket vf-bl"></span>
+          <span class="vf-bracket vf-br"></span>
+
+          <div class="vf-empty" id="vf-empty">
+            <svg viewBox="0 0 24 24" width="30" height="30"><path d="M12 16 V4 M12 4 L7 9 M12 4 L17 9" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16 V19 A2 2 0 0 0 6 21 H18 A2 2 0 0 0 20 19 V16" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
+            <p><strong>Drag &amp; drop</strong> or <span class="vf-browse">browse</span></p>
+            <p class="vf-hint" id="vf-hint">JPG, PNG or WEBP &middot; up to 20MB</p>
+          </div>
+
+          <img id="vf-image" class="vf-media" alt="" hidden>
+          <video id="vf-video" class="vf-media" muted playsinline hidden></video>
+
+          <div class="vf-hud" id="vf-hud" hidden>
+            <span id="vf-hud-ratio">1:1</span><span class="vf-hud-dot">&middot;</span><span id="vf-hud-size">1080 &times; 1080 px</span>
+          </div>
+
+          <button type="button" class="vf-clear" id="vf-clear" hidden aria-label="Remove file">&times;</button>
+        </div>
+
+        <input type="file" id="file-input" name="media" accept="image/*" hidden>
+      </div>
+
+      <!-- STEP 2 : platform + ratio -->
+      <div class="panel">
+        <div class="panel-label"><span class="step-index">02</span> Choose the destination</div>
+
+        <div class="platform-grid" id="platform-grid" role="radiogroup" aria-label="Platform"></div>
+
+        <div class="ratio-row" id="ratio-row" hidden>
+          <span class="ratio-row-label">Format</span>
+          <div class="ratio-chips" id="ratio-chips"></div>
+        </div>
+
+        <div class="bg-row" id="bg-row" hidden>
+          <span class="ratio-row-label">Padding color</span>
+          <div class="swatches" id="swatches">
+            <button type="button" class="swatch is-active" data-color="#ffffff" style="--sw:#ffffff" aria-label="White"></button>
+            <button type="button" class="swatch" data-color="#000000" style="--sw:#000000" aria-label="Black"></button>
+            <button type="button" class="swatch" data-color="#121417" style="--sw:#121417" aria-label="Charcoal"></button>
+            <button type="button" class="swatch swatch-custom" aria-label="Custom color">
+              <input type="color" id="bg-custom" value="#ff8a3d">
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 : action -->
+      <div class="panel panel-action">
+        <div class="panel-label"><span class="step-index">03</span> Fit &amp; export</div>
+        <button type="submit" class="fit-btn" id="fit-btn" disabled>
+          <span class="fit-btn-label">Choose a file to begin</span>
+          <span class="fit-btn-spinner" aria-hidden="true"></span>
+        </button>
+        <p class="progress-note" id="progress-note" hidden>Video encoding can take a little while for longer clips &mdash; hang tight.</p>
+      </div>
+    </form>
+
+    <section class="output" id="output" hidden>
+      <div class="panel-label"><span class="step-index">&#10003;</span> Ready</div>
+      <div class="output-frame" id="output-frame">
+        <img id="output-image" class="vf-media" alt="Processed result" hidden>
+        <video id="output-video" class="vf-media" controls playsinline hidden></video>
+      </div>
+      <div class="output-actions">
+        <a id="download-link" class="download-btn" download>
+          <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 3 V15 M12 15 L7 10 M12 15 L17 10" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17 V19.5 A1.5 1.5 0 0 0 5.5 21 H18.5 A1.5 1.5 0 0 0 20 19.5 V17" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg>
+          Download result
+        </a>
+        <button type="button" class="secondary-btn" id="start-over-btn">Fit another</button>
+      </div>
+    </section>
+
+    <div class="toast" id="toast" role="alert" hidden></div>
+
+  </main>
+
+  <footer class="footer">
+    <p>Perfect Fit scales your media to fit &mdash; it never crops out the parts you care about.</p>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
